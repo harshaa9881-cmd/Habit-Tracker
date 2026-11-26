@@ -1,0 +1,300 @@
+
+<div class="habits-page">
+
+  <!-- Navigation -->
+
+  <nav class="navbar habits-navbar px-4 py-3">
+
+    <a class="navbar-brand fw-bold" routerLink="/dashboard">
+      <i class="bi bi-activity me-2"></i>
+      HabitTrack
+    </a>
+
+    <div class="d-flex align-items-center gap-3">
+
+      <span class="user-label">
+        <i class="bi bi-person-circle me-2"></i>
+        My Workspace
+      </span>
+
+      <a routerLink="/dashboard" class="btn btn-light btn-sm">
+        <i class="bi bi-house me-1"></i>
+        Dashboard
+      </a>
+
+    </div>
+
+  </nav>
+
+  <main class="container-fluid habits-container">
+
+    <!-- Page Heading -->
+
+    <div class="page-heading">
+
+      <div>
+        <span class="section-label">YOUR PERSONAL SPACE</span>
+
+        <h1>My Habits</h1>
+
+        <p>
+          Build consistency through small actions every day.
+        </p>
+      </div>
+
+      <div class="habit-count">
+        <i class="bi bi-layers me-2"></i>
+        {{ habits().length }} Active Habits
+      </div>
+
+    </div>
+
+    <!-- Messages -->
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div class="alert alert-success">
+        {{ successMessage() }}
+      </div>
+    }
+
+    <div class="row g-4">
+
+      <!-- Habit Form -->
+
+      <div class="col-lg-4">
+
+        <div class="habit-form-card">
+
+          <div class="form-heading">
+
+            <div class="form-icon">
+              <i class="bi bi-plus-lg"></i>
+            </div>
+
+            <div>
+              <h4>
+                {{ isEditing ? 'Edit Habit' : 'Create New Habit' }}
+              </h4>
+
+              <p>
+                {{ isEditing
+                  ? 'Update your habit details.'
+                  : 'Add something positive to your routine.' }}
+              </p>
+            </div>
+
+          </div>
+
+          <form
+            #habitForm="ngForm"
+            (ngSubmit)="saveHabit()"
+          >
+
+            <div class="mb-4">
+
+              <label class="form-label">
+                Habit Name
+              </label>
+
+              <input
+                type="text"
+                class="form-control habit-input"
+                name="name"
+                [(ngModel)]="name"
+                placeholder="e.g. Morning Exercise"
+                required
+                maxlength="100"
+                #nameField="ngModel"
+              />
+
+              @if (nameField.invalid && nameField.touched) {
+                <small class="text-danger">
+                  Habit name is required.
+                </small>
+              }
+
+            </div>
+
+            <div class="mb-4">
+
+              <label class="form-label">
+                Description
+              </label>
+
+              <textarea
+                class="form-control habit-input"
+                name="description"
+                [(ngModel)]="description"
+                placeholder="Add a short description..."
+                rows="4"
+                maxlength="300"
+              ></textarea>
+
+              <small class="text-muted">
+                Maximum 300 characters.
+              </small>
+
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 save-button"
+              [disabled]="habitForm.invalid || isSaving()"
+            >
+
+              @if (isSaving()) {
+                Saving...
+              } @else {
+                @if (isEditing) {
+                  <i class="bi bi-check-lg me-2"></i>
+                  Update Habit
+                } @else {
+                  <i class="bi bi-plus-lg me-2"></i>
+                  Create Habit
+                }
+              }
+
+            </button>
+
+            @if (isEditing) {
+
+              <button
+                type="button"
+                class="btn btn-light w-100 mt-2"
+                (click)="resetForm()"
+              >
+                Cancel Editing
+              </button>
+
+            }
+
+          </form>
+
+          <div class="form-tip">
+            <i class="bi bi-lightbulb me-2"></i>
+            Start small. Consistency creates lasting change.
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Habit List -->
+
+      <div class="col-lg-8">
+
+        <div class="habit-list-card">
+
+          <div class="list-heading">
+
+            <div>
+              <h4>Your Active Habits</h4>
+              <p>All the habits you're currently building.</p>
+            </div>
+
+            <span class="habit-total">
+              {{ habits().length }} Habits
+            </span>
+
+          </div>
+
+          @if (isLoading()) {
+
+            <div class="loading-state">
+              <div class="spinner-border text-primary"></div>
+              <p>Loading your habits...</p>
+            </div>
+
+          } @else {
+
+            @if (habits().length === 0) {
+
+              <div class="empty-state">
+
+                <div class="empty-icon">
+                  <i class="bi bi-journal-plus"></i>
+                </div>
+
+                <h5>No habits added yet</h5>
+
+                <p>
+                  Create your first habit and start building
+                  a better routine.
+                </p>
+
+              </div>
+
+            } @else {
+
+              <div class="habit-list">
+
+                @for (habit of habits(); track habit.habitId) {
+
+                  <div class="habit-item">
+
+                    <div class="habit-symbol">
+                      <i class="bi bi-stars"></i>
+                    </div>
+
+                    <div class="habit-details">
+
+                      <h5>{{ habit.name }}</h5>
+
+                      <p>
+                        {{ habit.description || 'No description added.' }}
+                      </p>
+
+                      <small>
+                        <i class="bi bi-calendar3 me-1"></i>
+                        Created {{ habit.createdAt | date:'mediumDate' }}
+                      </small>
+
+                    </div>
+
+                    <div class="habit-actions">
+
+                      <button
+                        type="button"
+                        class="action-button edit-button"
+                        title="Edit habit"
+                        (click)="editHabit(habit)"
+                      >
+                        <i class="bi bi-pencil"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        class="action-button delete-button"
+                        title="Delete habit"
+                        (click)="deleteHabit(habit.habitId)"
+                      >
+                        <i class="bi bi-trash3"></i>
+                      </button>
+
+                    </div>
+
+                  </div>
+
+                }
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

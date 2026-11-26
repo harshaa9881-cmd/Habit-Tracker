@@ -1,0 +1,318 @@
+.habits-page {
+  min-height: 100vh;
+  background: #f5f5fa;
+}
+
+.habits-navbar {
+  background: #fff;
+  border-bottom: 1px solid #ededf3;
+}
+
+.navbar-brand {
+  color: #292744;
+  font-size: 22px;
+}
+
+.navbar-brand i {
+  color: #6254d9;
+}
+
+.user-label {
+  color: #777991;
+  font-size: 14px;
+}
+
+.habits-container {
+  padding: 45px 5%;
+}
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #6254d9;
+}
+
+.page-heading h1 {
+  font-size: 34px;
+  font-weight: 700;
+  color: #20213a;
+  margin: 10px 0;
+}
+
+.page-heading p {
+  color: #85869b;
+  margin: 0;
+}
+
+.habit-count,
+.habit-total {
+  background: #eeecff;
+  color: #6254d9;
+  padding: 10px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.habit-form-card,
+.habit-list-card {
+  background: #fff;
+  border: 1px solid #ececf4;
+  border-radius: 15px;
+  padding: 28px;
+  box-shadow: 0 5px 25px rgba(35,35,70,0.035);
+  height: 100%;
+}
+
+.form-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.form-icon {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #eeecff;
+  color: #6254d9;
+  font-size: 20px;
+}
+
+.form-heading h4,
+.list-heading h4 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.form-heading p,
+.list-heading p {
+  font-size: 12px;
+  color: #85869b;
+  margin: 0;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #34344c;
+}
+
+.habit-input {
+  border: 1px solid #e5e5ef;
+  border-radius: 9px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.habit-input:focus {
+  border-color: #6254d9;
+  box-shadow: 0 0 0 3px rgba(98,84,217,0.10);
+}
+
+.save-button {
+  background: #6254d9;
+  border-color: #6254d9;
+  padding: 12px;
+  border-radius: 9px;
+  font-weight: 600;
+}
+
+.save-button:hover {
+  background: #493bb5;
+  border-color: #493bb5;
+}
+
+.form-tip {
+  background: #f5f3ff;
+  color: #6254d9;
+  border-radius: 9px;
+  padding: 13px;
+  font-size: 12px;
+  margin-top: 25px;
+}
+
+.list-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #eeeef4;
+  margin-bottom: 10px;
+}
+
+.habit-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.habit-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 5px;
+  border-bottom: 1px solid #f0f0f5;
+  transition: background 0.2s ease, padding 0.2s ease;
+}
+
+.habit-item:hover {
+  background: #faf9ff;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.habit-symbol {
+  min-width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: #eeecff;
+  color: #6254d9;
+  font-size: 20px;
+}
+
+.habit-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.habit-details h5 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #292944;
+}
+
+.habit-details p {
+  font-size: 13px;
+  color: #777991;
+  margin-bottom: 7px;
+  overflow-wrap: anywhere;
+}
+
+.habit-details small {
+  font-size: 11px;
+  color: #9999aa;
+}
+
+.habit-actions {
+  display: flex;
+  gap: 9px;
+}
+
+.action-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid #e9e9f1;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.edit-button {
+  color: #6254d9;
+}
+
+.edit-button:hover {
+  background: #eeecff;
+  border-color: #6254d9;
+}
+
+.delete-button {
+  color: #e05262;
+}
+
+.delete-button:hover {
+  background: #fff0f1;
+  border-color: #e05262;
+}
+
+.empty-state,
+.loading-state {
+  text-align: center;
+  padding: 75px 15px;
+}
+
+.empty-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 18px;
+  background: #f1efff;
+  color: #6254d9;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 20px;
+  font-size: 27px;
+}
+
+.empty-state h5 {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.empty-state p,
+.loading-state p {
+  color: #85869b;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.loading-state p {
+  margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+
+  .habits-container {
+    padding: 30px 18px;
+  }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .page-heading h1 {
+    font-size: 28px;
+  }
+
+  .habit-form-card,
+  .habit-list-card {
+    padding: 20px;
+  }
+
+  .habit-item {
+    flex-wrap: wrap;
+  }
+
+  .habit-actions {
+    margin-left: auto;
+  }
+
+  .user-label {
+    display: none;
+  }
+
+}
+
+@media (max-width: 400px) {
+
+  .habit-details {
+    flex-basis: calc(100% - 65px);
+  }
+
+}
