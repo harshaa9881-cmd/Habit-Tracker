@@ -1,49 +1,251 @@
+
 <div class="dashboard-page">
 
-  <nav class="navbar bg-white shadow-sm px-4 py-3">
-    <span class="navbar-brand fw-bold">
-      <i class="bi bi-activity text-primary me-2"></i>
+  <!-- Navigation -->
+  <nav class="navbar dashboard-navbar px-4 py-3">
+    <a class="navbar-brand fw-bold" routerLink="/dashboard">
+      <i class="bi bi-activity me-2"></i>
       HabitTrack
-    </span>
+    </a>
 
-    <button class="btn btn-outline-secondary" (click)="logout()">
-      <i class="bi bi-box-arrow-right me-2"></i>
-      Logout
-    </button>
+    <div class="d-flex align-items-center gap-3">
+      <span class="user-label">
+        <i class="bi bi-person-circle me-2"></i>
+        {{ userName }}
+      </span>
+
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Logout
+      </button>
+    </div>
   </nav>
 
-  <main class="container py-5">
+  <div class="container dashboard-container py-4">
 
-    <div class="dashboard-welcome">
-
-      <span class="welcome-label">YOUR PERSONAL SPACE</span>
-
-      <h1>Welcome, {{ userName }}!</h1>
-
-      <p>
-        Every small action brings you closer to your goals.
-      </p>
-
-      <div class="dashboard-placeholder">
-
-        <i class="bi bi-stars"></i>
-
-        <h3>Your habit journey starts here.</h3>
-
-        <p>
-          Create and manage your personal habits
-          to start building a better routine.
+    <!-- Page Heading -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <div>
+        <h2 class="fw-bold mb-1">Daily Dashboard</h2>
+        <p class="text-muted mb-0">
+          Track your daily habits and stay consistent.
         </p>
+      </div>
 
-        <a routerLink="/habits" class="btn btn-primary mt-4">
-          <i class="bi bi-grid me-2"></i>
-          Manage My Habits
-        </a>
+      <a routerLink="/habits" class="btn btn-primary">
+        <i class="bi bi-list-check me-2"></i>
+        My Habits
+      </a>
+    </div>
+
+    <!-- Date Selection -->
+    <div class="date-card mb-4">
+      <label for="selectedDate" class="form-label fw-semibold">
+        <i class="bi bi-calendar3 me-2"></i>
+        Select Date
+      </label>
+
+      <input
+        type="date"
+        id="selectedDate"
+        class="form-control date-input"
+        [value]="selectedDate()"
+        [max]="getLocalDate()"
+        (change)="changeDate($any($event.target).value)"
+      />
+    </div>
+
+    <!-- Error Message -->
+    @if (errorMessage()) {
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-circle me-2"></i>
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <!-- Success Message -->
+    @if (successMessage()) {
+      <div class="alert alert-success">
+        <i class="bi bi-check-circle me-2"></i>
+        {{ successMessage() }}
+      </div>
+    }
+
+    <!-- Loading -->
+    @if (isLoading()) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted mt-3">Loading your daily progress...</p>
+      </div>
+    }
+
+    <!-- Dashboard Content -->
+    @if (!isLoading() && summary(); as dailySummary) {
+
+      <!-- Summary Cards -->
+      <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+          <div class="summary-card total-card">
+            <div class="summary-icon">
+              <i class="bi bi-list-check"></i>
+            </div>
+            <div>
+              <p class="summary-label">Total Habits</p>
+              <h3>{{ dailySummary.totalHabits }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="summary-card completed-card">
+            <div class="summary-icon">
+              <i class="bi bi-check-circle"></i>
+            </div>
+            <div>
+              <p class="summary-label">Completed</p>
+              <h3>{{ dailySummary.completedHabits }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="summary-card pending-card">
+            <div class="summary-icon">
+              <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div>
+              <p class="summary-label">Remaining</p>
+              <h3>{{ dailySummary.totalHabits - dailySummary.completedHabits }}</h3>
+            </div>
+          </div>
+        </div>
 
       </div>
 
-    </div>
+      <!-- Progress Section -->
+      <div class="progress-card mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 class="fw-bold mb-1">Daily Progress</h5>
+            <p class="text-muted mb-0">Keep moving towards your goals!</p>
+          </div>
 
-  </main>
+          <h3 class="progress-percentage mb-0">
+            {{ dailySummary.completionPercentage }}%
+          </h3>
+        </div>
+
+        <div class="progress" role="progressbar"
+          [attr.aria-valuenow]="dailySummary.completionPercentage"
+          aria-valuemin="0"
+          aria-valuemax="100">
+
+          <div
+            class="progress-bar"
+            [style.width.%]="dailySummary.completionPercentage">
+          </div>
+        </div>
+      </div>
+
+      <!-- Habit Checklist -->
+      <div class="habits-card">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h5 class="fw-bold mb-1">Today's Habits</h5>
+            <p class="text-muted mb-0">
+              Mark your habits as completed when you finish them.
+            </p>
+          </div>
+
+          <span class="badge bg-primary">
+            {{ dailySummary.completedHabits }} /
+            {{ dailySummary.totalHabits }} Completed
+          </span>
+        </div>
+
+        @if (dailySummary.habits.length > 0) {
+
+          <div class="habit-list">
+
+            @for (habit of dailySummary.habits; track habit.habitId) {
+
+              <div class="habit-item"
+                [class.habit-completed]="habit.isCompleted">
+
+                <div class="d-flex align-items-center gap-3">
+
+                  <button
+                    type="button"
+                    class="completion-button"
+                    [class.completed]="habit.isCompleted"
+                    [disabled]="updatingHabitIds().includes(habit.habitId)"
+                    (click)="toggleHabit(habit)">
+
+                    @if (updatingHabitIds().includes(habit.habitId)) {
+                      <span class="spinner-border spinner-border-sm"></span>
+                    } @else if (habit.isCompleted) {
+                      <i class="bi bi-check-lg"></i>
+                    } @else {
+                      <i class="bi bi-circle"></i>
+                    }
+
+                  </button>
+
+                  <div class="flex-grow-1">
+                    <h6 class="habit-name mb-1">
+                      {{ habit.name }}
+                    </h6>
+
+                    @if (habit.description) {
+                      <p class="text-muted small mb-0">
+                        {{ habit.description }}
+                      </p>
+                    }
+                  </div>
+
+                  @if (habit.isCompleted) {
+                    <span class="badge bg-success">
+                      Completed
+                    </span>
+                  } @else {
+                    <span class="badge bg-secondary">
+                      Pending
+                    </span>
+                  }
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        } @else {
+
+          <div class="empty-state text-center py-5">
+            <i class="bi bi-clipboard-check empty-icon"></i>
+            <h5 class="mt-3">No habits available</h5>
+            <p class="text-muted">
+              Add some habits to start tracking your daily progress.
+            </p>
+
+            <a routerLink="/habits" class="btn btn-primary">
+              <i class="bi bi-plus-circle me-2"></i>
+              Add Habits
+            </a>
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
 
 </div>
