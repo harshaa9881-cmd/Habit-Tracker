@@ -1,0 +1,6 @@
+@HabitTrack.Api_HostAddress = http://localhost:5208
+
+GET {{HabitTrack.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

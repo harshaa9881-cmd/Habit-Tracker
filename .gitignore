@@ -1,0 +1,18 @@
+
+# .NET
+**/bin/
+**/obj/
+**/Migrations/
+
+# Keep EF Core migrations
+!**/Migrations/
+!**/Migrations/*.cs
+
+# Angular
+**/node_modules/
+**/dist/
+**/.angular/
+
+# IDE
+.vs/
+.vscode/
