@@ -54,6 +54,48 @@ namespace HabitTrack.Api.Migrations
 
                     b.ToTable("Users");
                 });
+
+            modelBuilder.Entity("HabitTrack.Api.Models.Habit", b =>
+                {
+                    b.Property<int>("HabitId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HabitId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HabitId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Habits");
+                });
+
+            modelBuilder.Entity("HabitTrack.Api.Models.Habit", b =>
+                {
+                    b.HasOne("HabitTrack.Api.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 #pragma warning restore 612, 618
         }
     }

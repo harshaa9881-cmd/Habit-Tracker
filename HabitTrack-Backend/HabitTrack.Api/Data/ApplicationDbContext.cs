@@ -6,12 +6,15 @@ namespace HabitTrack.Api.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public ApplicationDbContext(
+        DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
     public DbSet<ApplicationUser> Users { get; set; }
+
+    public DbSet<Habit> Habits { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,5 +26,11 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<ApplicationUser>()
             .HasIndex(u => u.Email)
             .IsUnique();
+
+        modelBuilder.Entity<Habit>()
+            .HasOne<ApplicationUser>()
+            .WithMany()
+            .HasForeignKey(h => h.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
