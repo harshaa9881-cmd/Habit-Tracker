@@ -88,11 +88,48 @@ namespace HabitTrack.Api.Migrations
                     b.ToTable("Habits");
                 });
 
+            modelBuilder.Entity("HabitTrack.Api.Models.HabitRecord", b =>
+                {
+                    b.Property<int>("HabitRecordId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HabitRecordId"));
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateOnly>("CompletionDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("HabitId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HabitRecordId");
+
+                    b.HasIndex("HabitId", "CompletionDate")
+                        .IsUnique();
+
+                    b.ToTable("HabitRecords");
+                });
+
             modelBuilder.Entity("HabitTrack.Api.Models.Habit", b =>
                 {
                     b.HasOne("HabitTrack.Api.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("HabitTrack.Api.Models.HabitRecord", b =>
+                {
+                    b.HasOne("HabitTrack.Api.Models.Habit", null)
+                        .WithMany()
+                        .HasForeignKey("HabitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
