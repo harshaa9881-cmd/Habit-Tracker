@@ -1,0 +1,142 @@
+<div class="auth-page">
+
+  <div class="auth-brand">
+
+    <div class="brand-logo">
+      <i class="bi bi-activity"></i>
+    </div>
+
+    <h1>HabitTrack</h1>
+    <p>Small Steps. Big Change.</p>
+
+    <div class="brand-message">
+      <span>START YOUR JOURNEY</span>
+
+      <h2>Great things are built one day at a time.</h2>
+
+      <p>
+        Create a routine that supports your goals.
+        Track your progress and celebrate every small win.
+      </p>
+    </div>
+
+    <div class="brand-footer">
+      YOUR FUTURE IS BUILT BY WHAT YOU DO TODAY.
+    </div>
+
+  </div>
+
+  <div class="auth-content">
+
+    <div class="auth-card">
+
+      <div class="mobile-brand">
+        <i class="bi bi-activity"></i>
+        HabitTrack
+      </div>
+
+      <span class="welcome-label">GET STARTED</span>
+
+      <h2>Create your account</h2>
+
+      <p class="auth-description">
+        Start building a better version of yourself.
+      </p>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (successMessage) {
+        <div class="alert alert-success">
+          {{ successMessage }}
+        </div>
+      }
+
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+
+        <div class="mb-3">
+          <label class="form-label">Full Name</label>
+
+          <input
+            type="text"
+            class="form-control auth-input"
+            name="fullName"
+            [(ngModel)]="fullName"
+            placeholder="Enter your full name"
+            required
+            maxlength="100"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email address</label>
+
+          <input
+            type="email"
+            class="form-control auth-input"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="Enter your email"
+            required
+            email
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+
+          <input
+            type="password"
+            class="form-control auth-input"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Create a password"
+            required
+            minlength="6"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Confirm Password</label>
+
+          <input
+            type="password"
+            class="form-control auth-input"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary auth-button w-100"
+          [disabled]="registerForm.invalid || isLoading"
+        >
+          @if (isLoading) {
+            Creating account...
+          } @else {
+            Create Account <i class="bi bi-arrow-right ms-2"></i>
+          }
+        </button>
+
+      </form>
+
+      <p class="auth-switch">
+        Already have an account?
+        <a routerLink="/login">Sign In</a>
+      </p>
+
+      <div class="auth-bottom">
+        © 2026 HabitTrack. Build a life you love.
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

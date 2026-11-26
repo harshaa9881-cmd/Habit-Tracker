@@ -1,0 +1,40 @@
+.dashboard-page {
+  min-height: 100vh;
+  background: #f5f5fa;
+}
+
+.dashboard-welcome h1 {
+  font-weight: 700;
+  margin-top: 15px;
+}
+
+.dashboard-welcome > p {
+  color: #85869b;
+}
+
+.dashboard-placeholder {
+  margin-top: 40px;
+  padding: 65px 20px;
+  text-align: center;
+  background: white;
+  border: 1px solid #ebebf3;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(30,30,70,0.04);
+}
+
+.dashboard-placeholder i {
+  font-size: 40px;
+  color: #6254d9;
+}
+
+.dashboard-placeholder h3 {
+  font-size: 22px;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.dashboard-placeholder p {
+  color: #85869b;
+  max-width: 450px;
+  margin: 10px auto 0;
+}
